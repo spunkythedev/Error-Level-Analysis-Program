@@ -199,7 +199,7 @@ namespace JPEGLibrary
                         b = 0;
                         for (int y = height; y < height + Blocksize; y++)
                         {
-                            block[a, b] = YCbCrArray[width + a, height + b];
+                            block[a, b] = YCbCrArray[width + b, height + a];
                             b++;
                         }
                         a++;
@@ -289,8 +289,8 @@ namespace JPEGLibrary
             {
                 for (int v = 0; v < 8; v++)
                 {
-                    var Quv_y = (S * Models.QuantizationTables.Luminance[u, v] + 50) / 100;
-                    var Quv_cb = (S * Models.QuantizationTables.Chrominance[u, v] + 50) / 100;
+                    int Quv_y = (S * Models.QuantizationTables.Luminance[u, v] + 50) / 100;
+                    int Quv_cb = (S * Models.QuantizationTables.Chrominance[u, v] + 50) / 100;
                     var Quv_cr = Quv_cb;
 
                     QuantizationTables[u, v] = new QuantizationTableValue
@@ -299,6 +299,20 @@ namespace JPEGLibrary
                         Cb = Quv_cb,
                         Cr = Quv_cr
                     };
+
+                    //double Quv_y = (S * Models.QuantizationTables.Luminance[u, v] + 50.0) / 100.0;
+                    //double Quv_cb = (S * Models.QuantizationTables.Chrominance[u, v] + 50.0) / 100.0;
+                    //double Quv_cr = Quv_cb;
+
+                    //QuantizationTables[u, v] = new QuantizationTableValue
+                    //{
+                    //    //Y = (int)Math.Round(Quv_y, MidpointRounding.AwayFromZero),
+                    //    //Cb = (int)Math.Round(Quv_cb, MidpointRounding.AwayFromZero),
+                    //    //Cr = (int)Math.Round(Quv_cr, MidpointRounding.AwayFromZero)
+                    //    Y = (int)Math.Round(Quv_y),
+                    //    Cb = (int)Math.Round(Quv_cb),
+                    //    Cr = (int)Math.Round(Quv_cr)
+                    //};
                 }
             }
         }
@@ -441,6 +455,10 @@ namespace JPEGLibrary
                             output.PopulateHistogram(histogram_y_dct, FDCTBlockCollection[i, j].Block[x, y].Y_FDCT);
                             output.PopulateHistogram(histogram_cb_dct, FDCTBlockCollection[i, j].Block[x, y].Cb_FDCT);
                             output.PopulateHistogram(histogram_cr_dct, FDCTBlockCollection[i, j].Block[x, y].Cr_FDCT);
+
+                            //output.PopulateHistogramWithDouble(histogram_y_dct, FDCTBlockCollection[i, j].Block[x, y].Y_FDCT);
+                            //output.PopulateHistogramWithDouble(histogram_cb_dct, FDCTBlockCollection[i, j].Block[x, y].Cb_FDCT);
+                            //output.PopulateHistogramWithDouble(histogram_cr_dct, FDCTBlockCollection[i, j].Block[x, y].Cr_FDCT);
 
                             output.PopulateHistogram(histogram_y_quanti, QuantizationBlockCollection[i, j].Block[x, y].Y_Quant);
                             output.PopulateHistogram(histogram_cb_quanti, QuantizationBlockCollection[i, j].Block[x, y].Cb_Quant);

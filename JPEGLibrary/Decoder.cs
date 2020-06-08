@@ -241,7 +241,7 @@ namespace JPEGLibrary
 
             return output;
         }
-        
+
         Bitmap ConvertBlockArrayToPicture(RGBBlock[,] blocks)
         {
             Bitmap output = new Bitmap(enc.Image.Width, enc.Image.Height);
@@ -259,10 +259,7 @@ namespace JPEGLibrary
                     {
                         for (int y = 0; y < enc.Blocksize; y++)
                         {
-                            if (x + a < enc.Image.Width && y + b < enc.Image.Height)
-                            {
-                                output.SetPixel(x + a, y + b, colorBlock[x, y]);
-                            }
+                            output.SetPixel(y + a, x + b, colorBlock[x, y]);
                         }
                     }
                     a += enc.Blocksize;
@@ -275,6 +272,6 @@ namespace JPEGLibrary
         }
 
         #endregion
-        
+
     }
 }

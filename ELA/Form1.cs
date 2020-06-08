@@ -85,11 +85,19 @@ namespace ELA
                     {
                         for (int y = 0; y < loadedPictureBox.Image.Height; y++)
                         {
+                            double difference_r = input.GetPixel(x, y).R - decodedImage.GetPixel(x, y).R;
+                            double abs_r = Math.Abs(difference_r);
+                            double r = (abs_r) * M;
 
-                            var r = Math.Abs(input.GetPixel(x, y).R - decodedImage.GetPixel(x, y).R) * M;
-                            var g = Math.Abs(input.GetPixel(x, y).G - decodedImage.GetPixel(x, y).G) * M;
-                            var b = Math.Abs(input.GetPixel(x, y).B - decodedImage.GetPixel(x, y).B) * M;
 
+                            double difference_g = input.GetPixel(x, y).G - decodedImage.GetPixel(x, y).G;
+                            double abs_g = Math.Abs(difference_g);
+                            double g = (abs_g) * M;
+
+
+                            double difference_b = input.GetPixel(x, y).B - decodedImage.GetPixel(x, y).B;
+                            double abs_b = Math.Abs(difference_b);
+                            double b = (abs_b) * M;
 
                             if (r > 255)
                                 r = 255;
@@ -101,6 +109,8 @@ namespace ELA
                                 b = 255;
 
                             Color color = Color.FromArgb((byte)r, (byte)g, (byte)b);
+
+                            //Color color = Color.FromArgb(r, g, b);
                             output.SetPixel(x, y, color);
                         }
                     }

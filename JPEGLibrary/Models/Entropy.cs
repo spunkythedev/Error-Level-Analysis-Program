@@ -41,6 +41,20 @@ namespace JPEGLibrary.Models
             return -entropy;
         }
 
+        public double CalculateEntropyFromHistogram(Dictionary<double, int> histogram)
+        {
+            double entropy = 0;
+            foreach (var pixel in histogram)
+            {
+                double anzahl = pixel.Value;
+
+                double p = anzahl / pixelCount;
+                entropy += p * Math.Log(p, 2);
+            }
+
+            return -entropy;
+        }
+
         public void PopulateHistogram(Dictionary<int, int> histogram, double pixel)
         {
             int pixel_rounded = (int)Math.Round(pixel);
@@ -59,6 +73,24 @@ namespace JPEGLibrary.Models
                 histogram[pixel_rounded]++;
             }
         }
+
+        public void PopulateHistogramWithDouble(Dictionary<double, int> histogram, double pixel)
+        {
+            if (pixel == 0)
+            {
+                return;
+            }
+
+            if (histogram.ContainsKey(pixel) == false)
+            {
+                histogram[pixel] = 1;
+            }
+            else
+            {
+                histogram[pixel]++;
+            }
+        }
+
     }
 
     public static class PropertyPrinter
