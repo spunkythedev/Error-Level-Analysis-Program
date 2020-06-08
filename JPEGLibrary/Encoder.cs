@@ -76,35 +76,37 @@ namespace JPEGLibrary
 
         #region Constructors
 
-        //default constructor for image from filesystem
+        //constructor for image from filesystem
         public Encoder(string path, int quality, bool saveTextfiles = false)
-        : this(quality, saveTextfiles)
         {
             ImagePath = path;
             ImageName = Path.GetFileNameWithoutExtension(path);
+            SaveTextFiles = saveTextfiles;
+            Quality = quality;
         }
 
         //for Image as input (from Winforms picturebox)
         public Encoder(Image image, string path, int quality, bool saveTextfiles = false)
-        : this(quality, saveTextfiles)
         {
             Image = new Bitmap(image);
             ImageName = Path.GetFileNameWithoutExtension(path);
+            SaveTextFiles = saveTextfiles;
+            Quality = quality;
         }
 
         //for Bitmap as input (from resources)
         public Encoder(Bitmap image, string imageName, int quality, bool saveTextfiles = false)
-        : this(quality, saveTextfiles)
         {
             Image = image;
             ImageName = imageName;
+            SaveTextFiles = saveTextfiles;
+            Quality = quality;
         }
 
         //Default logic for all constructors
         Encoder(int quality, bool saveTextfiles)
         {
-            SaveTextFiles = saveTextfiles;
-            Quality = quality;
+            
         }
 
         #endregion

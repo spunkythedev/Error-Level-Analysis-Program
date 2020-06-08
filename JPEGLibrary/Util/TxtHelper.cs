@@ -7,17 +7,26 @@ namespace JPEGLibrary.Util
 {
     public class TxtHelper
     {
-        string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string folderpath; 
         public string ImageName { get; set; }
 
         public TxtHelper(string imageName)
         {
             ImageName = imageName;
+            folderpath = Path.Combine(
+                           Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                           "Error Level Analysis",
+                           $"{ImageName}");
+
+            if (!Directory.Exists(folderpath))
+            {
+                Directory.CreateDirectory(folderpath);
+            }
         }
 
         internal void SaveYCbCrBlockCollection(YCbCrBlock[,] input)
         {
-            Console.WriteLine($"Saving YCbCr values of {ImageName} to {path}");
+            Console.WriteLine($"Saving YCbCr values of {ImageName} to {folderpath}");
 
             StringBuilder yBlockTxt = new StringBuilder();
             StringBuilder cbBlockTxt = new StringBuilder();
@@ -52,15 +61,15 @@ namespace JPEGLibrary.Util
                 }
             }
 
-            File.WriteAllText(Path.Combine(path, $"{ImageName}_y.txt"), yBlockTxt.ToString());
-            File.WriteAllText(Path.Combine(path, $"{ImageName}_cb.txt"), cbBlockTxt.ToString());
-            File.WriteAllText(Path.Combine(path, $"{ImageName}_cr.txt"), crBlockTxt.ToString());
+            File.WriteAllText(Path.Combine(folderpath, $"{ImageName}_y.txt"), yBlockTxt.ToString());
+            File.WriteAllText(Path.Combine(folderpath, $"{ImageName}_cb.txt"), cbBlockTxt.ToString());
+            File.WriteAllText(Path.Combine(folderpath, $"{ImageName}_cr.txt"), crBlockTxt.ToString());
 
         }
 
         internal void SaveFDCTBlockCollection(FDCTBlock[,] input)
         {
-            Console.WriteLine($"Saving YCbCr values of {ImageName} to {path}");
+            Console.WriteLine($"Saving YCbCr values of {ImageName} to {folderpath}");
 
             StringBuilder ydctBlockTxt = new StringBuilder();
             StringBuilder cbdctBlockTxt = new StringBuilder();
@@ -95,16 +104,16 @@ namespace JPEGLibrary.Util
                 }
             }
 
-            File.WriteAllText(Path.Combine(path, $"{ImageName}_y_dct.txt"), ydctBlockTxt.ToString());
-            File.WriteAllText(Path.Combine(path, $"{ImageName}_cb_dct.txt"), cbdctBlockTxt.ToString());
-            File.WriteAllText(Path.Combine(path, $"{ImageName}_cr_dct.txt"), crdctBlockTxt.ToString());
+            File.WriteAllText(Path.Combine(folderpath, $"{ImageName}_y_dct.txt"), ydctBlockTxt.ToString());
+            File.WriteAllText(Path.Combine(folderpath, $"{ImageName}_cb_dct.txt"), cbdctBlockTxt.ToString());
+            File.WriteAllText(Path.Combine(folderpath, $"{ImageName}_cr_dct.txt"), crdctBlockTxt.ToString());
 
         }
 
         internal void SaveQuantisationBlockCollection(QuantizationBlock[,] input)
         {
 
-            Console.WriteLine($"Saving Quantisation values of {ImageName} to {path}");
+            Console.WriteLine($"Saving Quantisation values of {ImageName} to {folderpath}");
 
             StringBuilder yQuantiBlockTxt = new StringBuilder();
             StringBuilder cbQuantiBlockTxt = new StringBuilder();
@@ -139,9 +148,9 @@ namespace JPEGLibrary.Util
                 }
             }
 
-            File.WriteAllText(Path.Combine(path, $"{ImageName}_y_qdct.txt"), yQuantiBlockTxt.ToString());
-            File.WriteAllText(Path.Combine(path, $"{ImageName}_cb_qdct.txt"), cbQuantiBlockTxt.ToString());
-            File.WriteAllText(Path.Combine(path, $"{ImageName}_cr_qdct.txt"), crQuantiBlockTxt.ToString());
+            File.WriteAllText(Path.Combine(folderpath, $"{ImageName}_y_qdct.txt"), yQuantiBlockTxt.ToString());
+            File.WriteAllText(Path.Combine(folderpath, $"{ImageName}_cb_qdct.txt"), cbQuantiBlockTxt.ToString());
+            File.WriteAllText(Path.Combine(folderpath, $"{ImageName}_cr_qdct.txt"), crQuantiBlockTxt.ToString());
 
         }
     }

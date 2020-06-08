@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -109,12 +110,25 @@ namespace ELA
                                 b = 255;
 
                             Color color = Color.FromArgb((byte)r, (byte)g, (byte)b);
-
-                            //Color color = Color.FromArgb(r, g, b);
                             output.SetPixel(x, y, color);
                         }
                     }
-                    output.Save("ELA.png");
+                    if (saveELACheckbox.Checked)
+                    {
+                        string folderpath = Path.Combine(
+                            Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                            "Error Level Analysis",
+                            $"{encodedImage.ImageName}");
+                        if (!Directory.Exists(folderpath))
+                        {
+                            Directory.CreateDirectory(folderpath);
+                        }      
+
+                        string imagepath = Path.Combine(folderpath,$"ELA_quality={ encodedImage.Quality}_m={M}.png");
+
+                        output.Save(imagepath, ImageFormat.Png);
+                    }
+
                     decodedPictureBox.Image = output;
                 }
             });
@@ -128,9 +142,7 @@ namespace ELA
         {
             using (var openFileDialog = new OpenFileDialog())
             {
-                //openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                openFileDialog.InitialDirectory = @"C:\Users\Christoph\Google Drive\Studium\Master\2. Semester\Datenkompression\Beleg\dkprp4\Testbilder";
-                openFileDialog.Filter = ".png|*.png|.jpg|*.jpg";
+                openFileDialog.Filter = ".jpg|*.jpg|.png|*.png";
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -152,17 +164,6 @@ namespace ELA
         }
         private async void startButton_Click(object sender, EventArgs e)
         {
-            //if (decodedImage != null && isNewImage == false)
-            //{
-            //    loadingPicture.Show();
-
-            //    decodedPictureBox.Image = null;
-            //    await ApplyELA(int.Parse(contrastTextBox.Text));
-
-            //    loadingPicture.Hide();
-            //    return;
-            //}
-
             if (loadedPictureBox.Image != null)
             {
                 
@@ -182,7 +183,17 @@ namespace ELA
 
                 if (saveDecodedImagecheckBox.Checked)
                 {
-                    decodedImage.Save($"{ encodedImage.ImageName }_quality={ encodedImage.Quality}.png", ImageFormat.Png);
+                    string folderpath = Path.Combine(
+                            Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                            "Error Level Analysis",
+                            $"{encodedImage.ImageName}");
+                    if (!Directory.Exists(folderpath))
+                    {
+                        Directory.CreateDirectory(folderpath);
+                    }
+
+                    string imagepath = Path.Combine(folderpath, $"Decoded_quality={ encodedImage.Quality}.png");
+                    decodedImage.Save(imagepath, ImageFormat.Png);
                 }
 
                 await ApplyELA(int.Parse(contrastTextBox.Text));

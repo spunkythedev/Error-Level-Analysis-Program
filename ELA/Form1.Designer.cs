@@ -48,6 +48,7 @@
             this.decodedPictureBox = new System.Windows.Forms.PictureBox();
             this.loadedPictureBox = new System.Windows.Forms.PictureBox();
             this.closeButton = new System.Windows.Forms.Button();
+            this.saveELACheckbox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.loadingPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.decodedPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.loadedPictureBox)).BeginInit();
@@ -302,12 +303,24 @@
             this.closeButton.UseVisualStyleBackColor = false;
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
+            // saveELACheckbox
+            // 
+            this.saveELACheckbox.AutoSize = true;
+            this.saveELACheckbox.ForeColor = System.Drawing.Color.White;
+            this.saveELACheckbox.Location = new System.Drawing.Point(15, 215);
+            this.saveELACheckbox.Name = "saveELACheckbox";
+            this.saveELACheckbox.Size = new System.Drawing.Size(131, 17);
+            this.saveELACheckbox.TabIndex = 17;
+            this.saveELACheckbox.Text = "ELA Bild speichern";
+            this.saveELACheckbox.UseVisualStyleBackColor = true;
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(36)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1197, 425);
+            this.Controls.Add(this.saveELACheckbox);
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.expandImageButton);
             this.Controls.Add(this.deleteOutputButton);
@@ -368,6 +381,7 @@
         private System.Windows.Forms.Button deleteOutputButton;
         private System.Windows.Forms.Button expandImageButton;
         private System.Windows.Forms.Button closeButton;
+        private System.Windows.Forms.CheckBox saveELACheckbox;
     }
 }
 
