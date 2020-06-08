@@ -22,5 +22,65 @@ namespace ELA.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool saveEntropy {
+            get {
+                return ((bool)(this["saveEntropy"]));
+            }
+            set {
+                this["saveEntropy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool savePicture {
+            get {
+                return ((bool)(this["savePicture"]));
+            }
+            set {
+                this["savePicture"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool saveELA {
+            get {
+                return ((bool)(this["saveELA"]));
+            }
+            set {
+                this["saveELA"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool saveTxt {
+            get {
+                return ((bool)(this["saveTxt"]));
+            }
+            set {
+                this["saveTxt"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool savePSNR {
+            get {
+                return ((bool)(this["savePSNR"]));
+            }
+            set {
+                this["savePSNR"] = value;
+            }
+        }
     }
 }

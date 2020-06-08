@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JPEGLibrary.Models;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -44,6 +45,13 @@ namespace ELA
             InitializeComponent();
             GotToUntoggledState();
             loadingPicture.Hide();
+
+            saveTxtCheckBox.Checked = Properties.Settings.Default.saveTxt;
+            savePSNRCheckbox.Checked = Properties.Settings.Default.savePSNR;
+            saveEntropyCheckbox.Checked = Properties.Settings.Default.saveEntropy;
+            saveDecodedImagecheckBox.Checked = Properties.Settings.Default.savePicture;
+            saveELACheckbox.Checked = Properties.Settings.Default.saveELA;
+                 
         }
 
         private void Form_Load(object sender, EventArgs e)
@@ -67,9 +75,20 @@ namespace ELA
             JPEGLibrary.Decoder decoder = new JPEGLibrary.Decoder(encodedImage);
             await decoder.Decode();
 
-            decodedImage = decoder.DecodedImage;
+            if (savePSNRCheckbox.Checked)
+            {
+                string PSNR_txt = string.Empty;
 
-            //decodedPictureBox.Image = decodedImage;
+                PSNR_txt += decoder.PSNR_R + " db\n";
+                PSNR_txt += decoder.PSNR_G + " db\n";
+                PSNR_txt += decoder.PSNR_B + " db\n";
+
+                string folderpath = GetFolderPath();
+                CheckDirectory();
+                File.WriteAllText(Path.Combine(folderpath, $"PSNR_quality={quality}.txt"), PSNR_txt);
+            }
+
+            decodedImage = decoder.DecodedImage;
         }
 
         private async Task ApplyELA(int M)
@@ -183,17 +202,26 @@ namespace ELA
 
                 if (saveDecodedImagecheckBox.Checked)
                 {
-                    string folderpath = Path.Combine(
-                            Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                            "Error Level Analysis",
-                            $"{encodedImage.ImageName}");
-                    if (!Directory.Exists(folderpath))
-                    {
-                        Directory.CreateDirectory(folderpath);
-                    }
+                    string folderpath = GetFolderPath();
+                    CheckDirectory();
 
                     string imagepath = Path.Combine(folderpath, $"Decoded_quality={ encodedImage.Quality}.png");
                     decodedImage.Save(imagepath, ImageFormat.Png);
+                }
+                if (saveEntropyCheckbox.Checked)
+                {
+                    Entropy entropy = encodedImage.Entropy;
+
+                    string entropy_txt = string.Empty;
+                    foreach (var value in entropy.GetPropertyValues())
+                    {
+                        entropy_txt += $"{value}\n";
+                    }
+
+                    string folderpath = GetFolderPath();
+                    CheckDirectory();
+
+                    File.WriteAllText(Path.Combine(folderpath, $"Entropy_quality={quality}.txt"), entropy_txt);
                 }
 
                 await ApplyELA(int.Parse(contrastTextBox.Text));
@@ -205,6 +233,22 @@ namespace ELA
             }
 
             
+        }
+
+        private string GetFolderPath()
+        {
+            return Path.Combine(
+                               Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                               "Error Level Analysis",
+                               $"{encodedImage.ImageName}");
+
+        }
+        private void CheckDirectory()
+        {
+            string folderpath = GetFolderPath();
+
+            if (!Directory.Exists(folderpath))
+                Directory.CreateDirectory(folderpath);
         }
         private void SetDecodedAsInputButton_Click(object sender, EventArgs e)
         {
@@ -301,8 +345,39 @@ namespace ELA
             movY = e.Y;
         }
 
+
         #endregion
 
-        
+        #region Checkboxes
+        private void savePSNRCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.savePSNR = ((CheckBox)sender).Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void saveEntropyCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.saveEntropy = ((CheckBox)sender).Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void saveELACheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.saveELA = ((CheckBox)sender).Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void saveDecodedImagecheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.savePicture = ((CheckBox)sender).Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void saveTxtCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.saveTxt = ((CheckBox)sender).Checked;
+            Properties.Settings.Default.Save();
+        } 
+        #endregion
     }
 }

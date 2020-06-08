@@ -43,12 +43,13 @@
             this.label4 = new System.Windows.Forms.Label();
             this.deleteInputButton = new System.Windows.Forms.Button();
             this.deleteOutputButton = new System.Windows.Forms.Button();
-            this.expandImageButton = new System.Windows.Forms.Button();
             this.loadingPicture = new System.Windows.Forms.PictureBox();
             this.decodedPictureBox = new System.Windows.Forms.PictureBox();
             this.loadedPictureBox = new System.Windows.Forms.PictureBox();
             this.closeButton = new System.Windows.Forms.Button();
             this.saveELACheckbox = new System.Windows.Forms.CheckBox();
+            this.saveEntropyCheckbox = new System.Windows.Forms.CheckBox();
+            this.savePSNRCheckbox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.loadingPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.decodedPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.loadedPictureBox)).BeginInit();
@@ -111,6 +112,7 @@
             this.saveTxtCheckBox.TabIndex = 6;
             this.saveTxtCheckBox.Text = "Zwischenwerte speichern";
             this.saveTxtCheckBox.UseVisualStyleBackColor = true;
+            this.saveTxtCheckBox.CheckedChanged += new System.EventHandler(this.saveTxtCheckBox_CheckedChanged);
             // 
             // saveDecodedImagecheckBox
             // 
@@ -122,6 +124,7 @@
             this.saveDecodedImagecheckBox.TabIndex = 9;
             this.saveDecodedImagecheckBox.Text = "Umgewandeltes Bild speichern";
             this.saveDecodedImagecheckBox.UseVisualStyleBackColor = true;
+            this.saveDecodedImagecheckBox.CheckedChanged += new System.EventHandler(this.saveDecodedImagecheckBox_CheckedChanged);
             // 
             // qualityTextBox
             // 
@@ -203,11 +206,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.label4.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Silver;
             this.label4.Location = new System.Drawing.Point(11, 22);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(196, 23);
+            this.label4.Size = new System.Drawing.Size(165, 18);
             this.label4.TabIndex = 12;
             this.label4.Text = "Error Level Analyse";
             // 
@@ -240,22 +243,6 @@
             this.deleteOutputButton.Text = "löschen";
             this.deleteOutputButton.UseVisualStyleBackColor = false;
             this.deleteOutputButton.Click += new System.EventHandler(this.deleteOutputButton_Click);
-            // 
-            // expandImageButton
-            // 
-            this.expandImageButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(19)))), ((int)(((byte)(20)))));
-            this.expandImageButton.Enabled = false;
-            this.expandImageButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.expandImageButton.FlatAppearance.BorderSize = 0;
-            this.expandImageButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.expandImageButton.ForeColor = System.Drawing.Color.White;
-            this.expandImageButton.Location = new System.Drawing.Point(1086, 394);
-            this.expandImageButton.Name = "expandImageButton";
-            this.expandImageButton.Size = new System.Drawing.Size(81, 19);
-            this.expandImageButton.TabIndex = 15;
-            this.expandImageButton.Text = "Fullscreen";
-            this.expandImageButton.UseVisualStyleBackColor = false;
-            this.expandImageButton.Click += new System.EventHandler(this.expandImageButton_Click);
             // 
             // loadingPicture
             // 
@@ -313,6 +300,31 @@
             this.saveELACheckbox.TabIndex = 17;
             this.saveELACheckbox.Text = "ELA Bild speichern";
             this.saveELACheckbox.UseVisualStyleBackColor = true;
+            this.saveELACheckbox.CheckedChanged += new System.EventHandler(this.saveELACheckbox_CheckedChanged);
+            // 
+            // saveEntropyCheckbox
+            // 
+            this.saveEntropyCheckbox.AutoSize = true;
+            this.saveEntropyCheckbox.ForeColor = System.Drawing.Color.White;
+            this.saveEntropyCheckbox.Location = new System.Drawing.Point(15, 238);
+            this.saveEntropyCheckbox.Name = "saveEntropyCheckbox";
+            this.saveEntropyCheckbox.Size = new System.Drawing.Size(132, 17);
+            this.saveEntropyCheckbox.TabIndex = 18;
+            this.saveEntropyCheckbox.Text = "Entropie speichern";
+            this.saveEntropyCheckbox.UseVisualStyleBackColor = true;
+            this.saveEntropyCheckbox.CheckedChanged += new System.EventHandler(this.saveEntropyCheckbox_CheckedChanged);
+            // 
+            // savePSNRCheckbox
+            // 
+            this.savePSNRCheckbox.AutoSize = true;
+            this.savePSNRCheckbox.ForeColor = System.Drawing.Color.White;
+            this.savePSNRCheckbox.Location = new System.Drawing.Point(15, 260);
+            this.savePSNRCheckbox.Name = "savePSNRCheckbox";
+            this.savePSNRCheckbox.Size = new System.Drawing.Size(116, 17);
+            this.savePSNRCheckbox.TabIndex = 19;
+            this.savePSNRCheckbox.Text = "PSNR speichern";
+            this.savePSNRCheckbox.UseVisualStyleBackColor = true;
+            this.savePSNRCheckbox.CheckedChanged += new System.EventHandler(this.savePSNRCheckbox_CheckedChanged);
             // 
             // Form
             // 
@@ -320,9 +332,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(36)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1197, 425);
+            this.Controls.Add(this.savePSNRCheckbox);
+            this.Controls.Add(this.saveEntropyCheckbox);
             this.Controls.Add(this.saveELACheckbox);
             this.Controls.Add(this.closeButton);
-            this.Controls.Add(this.expandImageButton);
             this.Controls.Add(this.deleteOutputButton);
             this.Controls.Add(this.deleteInputButton);
             this.Controls.Add(this.label4);
@@ -379,9 +392,10 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button deleteInputButton;
         private System.Windows.Forms.Button deleteOutputButton;
-        private System.Windows.Forms.Button expandImageButton;
         private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.CheckBox saveELACheckbox;
+        private System.Windows.Forms.CheckBox saveEntropyCheckbox;
+        private System.Windows.Forms.CheckBox savePSNRCheckbox;
     }
 }
 
